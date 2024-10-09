@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Sumador:jar">
+    <output-path>$USER_HOME$/jar_files</output-path>
+    <root id="archive" name="Sumador.jar">
+      <element id="module-output" name="Sumador" />
+      <element id="module-test-output" name="Sumador" />
+    </root>
+  </artifact>
+</component>
