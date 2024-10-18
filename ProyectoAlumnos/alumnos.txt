@@ -1,0 +1,1 @@
+[Alumno{nombre='oscar', apellidos='perez', DNI='3234ed', fechaNac='16/77/6666', notaMedia='3'}]
