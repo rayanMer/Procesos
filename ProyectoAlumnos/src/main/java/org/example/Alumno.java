@@ -17,7 +17,7 @@ public class Alumno  implements Serializable {
         this.notaMedia = notaMedia;
     }
 
-    public String getApellidos() {
+    public String getApellido() {
         return apellidos;
     }
 

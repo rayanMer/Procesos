@@ -1,4 +1,5 @@
 package org.example;
+import java.sql.*;
 
 import java.util.Scanner;
 
@@ -6,11 +7,11 @@ public class InsertarAlumnos {
     static Scanner entrada = new Scanner(System.in);
     public static void main(String[]args){
         boolean salir = false;
-        String nombre = null;
-        String apellidos = null;
-        String DNI = null;
-        String fechaNac = null;
-        String notaMedia = null;
+        String nombre ;
+        String apellidos ;
+        String DNI ;
+        String fechaNac ;
+        String notaMedia ;
         while (!salir) {
             System.out.println("Introduzca nombre:");
             nombre = entrada.nextLine();
@@ -69,14 +70,35 @@ public class InsertarAlumnos {
                             if (notaMedia.equals("")) {
                                 notaMedia = "0";
                             }
+                            Alumno alumno = new Alumno(nombre, apellidos, DNI, fechaNac, notaMedia);
+                            System.out.println(alumno);
+                            String url="jdbc:mysql://localhost:3306/adat";
+                            try (Connection con = DriverManager.getConnection(url, "dam2", "asdf.1234");){
+                                String consultaInsert = "INSERT INTO alumnos (nombre, apellido, dni,fechaNac,notaMedia) VALUES (?,?,?,?,?)";
+
+                                PreparedStatement insert = con.prepareStatement(consultaInsert);
+
+                                insert.setString(1, alumno.getNombre());
+                                insert.setString(2, alumno.getApellido());
+                                insert.setString(3, alumno.getDNI());
+                                insert.setString(4, alumno.getFechaNac());
+                                insert.setString(5, alumno.getNotaMedia());
+                                // Ejecutar la consulta
+                                insert.executeUpdate();
+                                System.out.println("Insert realizado correctamente.");
+
+
+                            } catch (SQLException e) {
+                                System.out.println(e.getMessage());
+                            }
                             salir = true;
                         }
                     }
                 }
             }
         }
-        Alumno alumno = new Alumno(nombre, apellidos, DNI, fechaNac, notaMedia);
-        System.out.println(alumno);
+
+
 
     }
 }
