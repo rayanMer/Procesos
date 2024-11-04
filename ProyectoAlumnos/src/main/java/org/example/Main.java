@@ -32,6 +32,7 @@ public class Main {
                         String path = System.getProperty("user.home") + File.separator + "IdeaProjects" + File.separator + "insertarAlumnos" + File.separator + "out" + File.separator + "artifacts" + File.separator + "insertarAlumnos_jar" + File.separator;
                         String jarFile = "insertarAlumnos.jar";
                         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+                        System.out.println(System.getProperty("java.home"));
                        ProcessBuilder pb = new ProcessBuilder(java + " -jar " + path + jarFile);
                        // ProcessBuilder pb = new ProcessBuilder("java", "-jar", path + jarFile);
                         try {
