@@ -40,19 +40,19 @@ public class Main {
                                 path + jarFile,
                                 DNI
                         );
-                        try {
-                            Process proceso = pb.start();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                System.out.println(line);
+                        if (DNI != null) {
+                            try {
+                                Process proceso = pb.start();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    System.out.println(line);
+                                }
+                                proceso.waitFor();
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            proceso.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
                         }
-
-
                         break;
                     }
                     case 2: {
@@ -61,25 +61,28 @@ public class Main {
                         String jarFile = "InsertarAlumnos.jar";
                         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
                         String alumno = pedirDatosAlumnoInsert();
-                        ProcessBuilder pb = new ProcessBuilder(
-                                java,
-                                "-jar",
-                                path + jarFile,
-                                alumno
-                        );
-                        try {
-                            Process proceso = pb.start();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                System.out.println(line);
+                        if (alumno != null) {
+                            ProcessBuilder pb = new ProcessBuilder(
+                                    java,
+                                    "-jar",
+                                    path + jarFile,
+                                    alumno
+                            );
+                            try {
+                                Process proceso = pb.start();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    System.out.println(line);
+                                }
+                                proceso.waitFor();
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            proceso.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
+                        } else {
+                            System.out.println("***********Reiniciando***********");
                         }
                         break;
-
                     }
                     case 3: {
                         System.out.println("Obteniendo listado del alumnado");
@@ -106,7 +109,7 @@ public class Main {
                     }
                     case 4: {
                         System.out.println("Eliminación de alumno por DNI");
-                        String DNI=pedirDNI();
+                        String DNI = pedirDNI();
                         String path = System.getProperty("user.home") + File.separator + "jar_files" + File.separator;
                         String jarFile = "EliminarAlumnos.jar";
                         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
@@ -116,23 +119,25 @@ public class Main {
                                 path + jarFile,
                                 DNI
                         );
-                        try {
-                            Process proceso = pb.start();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                System.out.println(line);
+                        if (DNI != null) {
+                            try {
+                                Process proceso = pb.start();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    System.out.println(line);
+                                }
+                                proceso.waitFor();
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            proceso.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
                         }
                         break;
                     }
-                    case 5:{
+                    case 5: {
                         System.out.println("Modificación de alumno");
                         String DNI = pedirDNI();
-                        String datosNuevos=pedirDatosModificar();
+                        String datosNuevos = pedirDatosModificar();
                         String path = System.getProperty("user.home") + File.separator + "jar_files" + File.separator;
                         String jarFile = "ModificarAlumno.jar";
                         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
@@ -143,25 +148,22 @@ public class Main {
                                 DNI,
                                 datosNuevos
                         );
-                        try {
-                            Process proceso = pb.start();
-                            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                System.out.println(line);
+                        if (DNI != null && datosNuevos != null) {
+                            try {
+                                Process proceso = pb.start();
+                                BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+                                String line;
+                                while ((line = reader.readLine()) != null) {
+                                    System.out.println(line);
+                                }
+                                proceso.waitFor();
+                            } catch (IOException | InterruptedException e) {
+                                e.printStackTrace();
                             }
-                            BufferedReader errorReader = new BufferedReader(new InputStreamReader(proceso.getErrorStream()));
-                            String errorLine;
-                            while ((errorLine = errorReader.readLine()) != null) {
-                                System.err.println(errorLine);
-                            }
-                            proceso.waitFor();
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
                         }
                         break;
                     }
-                    case 6:{
+                    case 6: {
                         System.out.println("Finalizando programa");
                         break;
                     }
@@ -189,7 +191,7 @@ public class Main {
         String notaMedia;
         while (!salir) {
             System.out.println("Introduzca nombre:");
-            nombre = entrada.nextLine();
+            nombre = entrada.next();
             while (nombre.isEmpty()) {
                 System.err.println("Introduzca nombre que no este en blanco:");
                 nombre = entrada.nextLine();
@@ -207,12 +209,7 @@ public class Main {
                 if (apellidos.equalsIgnoreCase("REINICIAR")) {
                     salir = true;
                 } else {
-                    System.out.println("Introduzca DNI:");
-                    DNI = entrada.nextLine();
-                    while (DNI.isEmpty()) {
-                        System.err.println("Introduzca DNI que no este en blanco:");
-                        DNI = entrada.nextLine();
-                    }
+                    DNI = pedirDNI();
                     if (DNI.equalsIgnoreCase("REINICIAR")) {
                         salir = true;
                     } else {
@@ -245,6 +242,7 @@ public class Main {
 
         return null;
     }
+
     public static String pedirDatosModificar() {
 
         String nombre;
@@ -252,7 +250,7 @@ public class Main {
         String fechaNac;
         String notaMedia;
         System.out.println("Introduzca nombre modificado:");
-        nombre = entrada.nextLine();
+        nombre = entrada.next();
         while (nombre.isEmpty()) {
             System.err.println("Introduzca nombre que no este en blanco:");
             nombre = entrada.nextLine();

@@ -21,7 +21,7 @@ public class Main {
         System.out.println(campos);
         String url = "jdbc:mysql://localhost:3306/adat2";
         try (Connection con = DriverManager.getConnection(url, "dam2", "asdf.1234");) {
-            String consultaPorDNI = "update alumnos SET nombre = ?, apellido = ?, fechaNac = ?, notaMedia = ? where DNI = ?";
+            String consultaPorDNI = "update alumnos SET nombre = ?, apellido = ?, fecha_nac = ?, nota_media = ? where DNI = ?";
             PreparedStatement update = con.prepareStatement(consultaPorDNI);
             update.setString(1, nombre);
             update.setString(2, apellidos);

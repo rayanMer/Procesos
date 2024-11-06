@@ -22,7 +22,7 @@ public class Main {
                 System.out.println("NotaMedia: "+resultSet.getString(6));
                 System.out.println("---------------------------------------------------------");
             }
-            read.executeUpdate();
+            read.executeQuery();
             System.out.println("Busqueda realizada correctamente.");
 
         } catch (SQLException e) {
