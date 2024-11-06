@@ -160,9 +160,7 @@ public class Main {
             while (nombre.isEmpty()) {
                 System.err.println("Introduzca nombre que no este en blanco:");
                 nombre = entrada.nextLine();
-                if (nombre.equalsIgnoreCase("REINICIAR")) {
-                    salir = true;
-                }
+
             }
             if (nombre.equalsIgnoreCase("REINICIAR")) {
                 salir = true;
@@ -172,9 +170,6 @@ public class Main {
                 while (apellidos.isEmpty()) {
                     System.err.println("Introduzca apellido que no este en blanco:");
                     apellidos = entrada.nextLine();
-                    if (apellidos.equalsIgnoreCase("REINICIAR")) {
-                        salir = true;
-                    }
                 }
                 if (apellidos.equalsIgnoreCase("REINICIAR")) {
                     salir = true;
@@ -184,9 +179,6 @@ public class Main {
                     while (DNI.isEmpty()) {
                         System.err.println("Introduzca DNI que no este en blanco:");
                         DNI = entrada.nextLine();
-                        if (DNI.equalsIgnoreCase("REINICIAR")) {
-                            salir = true;
-                        }
                     }
                     if (DNI.equalsIgnoreCase("REINICIAR")) {
                         salir = true;
@@ -197,9 +189,6 @@ public class Main {
                         while (fechaNac.isEmpty() || !fechaNac.matches(formatoFecha)) {
                             System.err.println("Introduzca fecha de nacimiento que no este en blanco:");
                             fechaNac = entrada.nextLine();
-                            if (fechaNac.equalsIgnoreCase("REINICIAR")) {
-                                salir = true;
-                            }
                             if (!fechaNac.matches(formatoFecha)) {
                                 System.err.println("Introduzca un formato valido dd/mm/yyyy");
                             }

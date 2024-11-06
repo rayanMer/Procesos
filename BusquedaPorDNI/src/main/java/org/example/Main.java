@@ -23,7 +23,7 @@ public class Main {
                 System.out.println("---------------------------------------------------------");
             }
             read.executeUpdate();
-            System.out.println("Insert realizado correctamente.");
+            System.out.println("Busqueda realizada correctamente.");
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
