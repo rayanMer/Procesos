@@ -18,7 +18,8 @@ public class Main {
             System.out.println("2. Insertar un nuevo alumno.");
             System.out.println("3. Obtener todos los alumnos.");
             System.out.println("4. Eliminar alumno por DNI");
-            System.out.println("5. Finalizar.");
+            System.out.println("5. Modificar alumno");
+            System.out.println("6. Finalizar.");
             System.out.println("Introduzca una opcion:");
             opc = entrada.nextInt();
             if (opc < 1 || opc > 5) {
@@ -129,6 +130,38 @@ public class Main {
                         break;
                     }
                     case 5:{
+                        System.out.println("Modificación de alumno");
+                        String DNI = pedirDNI();
+                        String datosNuevos=pedirDatosModificar();
+                        String path = System.getProperty("user.home") + File.separator + "jar_files" + File.separator;
+                        String jarFile = "ModificarAlumno.jar";
+                        String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
+                        ProcessBuilder pb = new ProcessBuilder(
+                                java,
+                                "-jar",
+                                path + jarFile,
+                                DNI,
+                                datosNuevos
+                        );
+                        try {
+                            Process proceso = pb.start();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                System.out.println(line);
+                            }
+                            BufferedReader errorReader = new BufferedReader(new InputStreamReader(proceso.getErrorStream()));
+                            String errorLine;
+                            while ((errorLine = errorReader.readLine()) != null) {
+                                System.err.println(errorLine);
+                            }
+                            proceso.waitFor();
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    }
+                    case 6:{
                         System.out.println("Finalizando programa");
                         break;
                     }
@@ -211,5 +244,41 @@ public class Main {
         }
 
         return null;
+    }
+    public static String pedirDatosModificar() {
+
+        String nombre;
+        String apellidos;
+        String fechaNac;
+        String notaMedia;
+        System.out.println("Introduzca nombre modificado:");
+        nombre = entrada.nextLine();
+        while (nombre.isEmpty()) {
+            System.err.println("Introduzca nombre que no este en blanco:");
+            nombre = entrada.nextLine();
+        }
+        System.out.println("Introduzca apellidos:");
+        apellidos = entrada.nextLine();
+        while (apellidos.isEmpty()) {
+            System.err.println("Introduzca apellido que no este en blanco:");
+            apellidos = entrada.nextLine();
+        }
+        System.out.println("Introduzca fecha de nacimiento:");
+        fechaNac = entrada.nextLine();
+        String formatoFecha = "^\\d{2}/\\d{2}/\\d{4}$";
+        while (fechaNac.isEmpty() || !fechaNac.matches(formatoFecha)) {
+            System.err.println("Introduzca fecha de nacimiento que no este en blanco:");
+            fechaNac = entrada.nextLine();
+            if (!fechaNac.matches(formatoFecha)) {
+                System.err.println("Introduzca un formato valido dd/mm/yyyy");
+            }
+        }
+        System.out.println("Introduzca nota media:");
+        notaMedia = entrada.nextLine();
+        if (notaMedia.isEmpty()) {
+            notaMedia = "0";
+        }
+        String datos = nombre + "," + apellidos + "," + fechaNac + "," + notaMedia;
+        return datos;
     }
 }
