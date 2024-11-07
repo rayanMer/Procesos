@@ -34,11 +34,7 @@ public class Main {
                         String path = System.getProperty("user.home") + File.separator + "jar_files" + File.separator;
                         String jarFile = "BusquedaPorDNI.jar";
                         String java = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
-                        ProcessBuilder pb = new ProcessBuilder(
-                                java,
-                                "-jar",
-                                path + jarFile,
-                                DNI
+                        ProcessBuilder pb = new ProcessBuilder( java, "-jar", path + jarFile, DNI
                         );
                         if (DNI != null) {
                             try {
