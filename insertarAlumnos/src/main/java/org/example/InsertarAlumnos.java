@@ -10,10 +10,10 @@ public class InsertarAlumnos {
     public static void main(String[]args){
         if (args.length != 1) {
             System.out.println("Introduzca solo una palabra");
-            System.exit(0);
+            System.exit(-1);
         }
         String datos = args[0];
-        System.out.println("a**********************************");
+        System.out.println("**********************************");
         System.out.println(datos);
         System.out.println("****************************************");
         String[] campos = datos.split(",");

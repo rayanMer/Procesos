@@ -179,29 +179,32 @@ public class Main {
     }
 
     public static String pedirDatosAlumnoInsert() {
+        Scanner entrada = new Scanner(System.in);
         boolean salir = false;
         String nombre;
         String apellidos;
         String DNI;
         String fechaNac;
         String notaMedia;
+
         while (!salir) {
             System.out.println("Introduzca nombre:");
-            nombre = entrada.next();
+            nombre = entrada.nextLine().trim();
             while (nombre.isEmpty()) {
-                System.err.println("Introduzca nombre que no este en blanco:");
-                nombre = entrada.nextLine();
-
+                System.err.println("Introduzca un nombre que no esté en blanco:");
+                nombre = entrada.nextLine().trim();
             }
+
             if (nombre.equalsIgnoreCase("REINICIAR")) {
                 salir = true;
             } else {
                 System.out.println("Introduzca apellidos:");
-                apellidos = entrada.next();
+                apellidos = entrada.nextLine().trim();
                 while (apellidos.isEmpty()) {
-                    System.err.println("Introduzca apellido que no este en blanco:");
-                    apellidos = entrada.next();
+                    System.err.println("Introduzca un apellido que no esté en blanco:");
+                    apellidos = entrada.nextLine().trim();
                 }
+
                 if (apellidos.equalsIgnoreCase("REINICIAR")) {
                     salir = true;
                 } else {
@@ -209,24 +212,25 @@ public class Main {
                     if (DNI.equalsIgnoreCase("REINICIAR")) {
                         salir = true;
                     } else {
-                        System.out.println("Introduzca fecha de nacimiento:");
-                        fechaNac = entrada.next();
+                        System.out.println("Introduzca fecha de nacimiento (dd/mm/yyyy):");
+                        fechaNac = entrada.nextLine().trim();
                         String formatoFecha = "^\\d{2}/\\d{2}/\\d{4}$";
-                        while (fechaNac.isEmpty() || !fechaNac.matches(formatoFecha)) {
-                            System.err.println("Introduzca fecha de nacimiento que no este en blanco:");
-                            fechaNac = entrada.next();
-                            if (!fechaNac.matches(formatoFecha)) {
-                                System.err.println("Introduzca un formato valido dd/mm/yyyy");
-                            }
+
+                        while (!fechaNac.matches(formatoFecha)) {
+                            System.err.println("Formato de fecha incorrecto. Introduzca un formato válido (dd/mm/yyyy):");
+                            fechaNac = entrada.nextLine().trim();
                         }
+
                         if (fechaNac.equalsIgnoreCase("REINICIAR")) {
                             salir = true;
                         } else {
                             System.out.println("Introduzca nota media:");
-                            notaMedia = entrada.next();
+                            notaMedia = entrada.nextLine().trim();
+
                             if (notaMedia.isEmpty()) {
                                 notaMedia = "0";
                             }
+
                             String datos = nombre + "," + apellidos + "," + DNI + "," + fechaNac + "," + notaMedia;
                             System.out.println("hecho");
                             return datos;
@@ -235,7 +239,6 @@ public class Main {
                 }
             }
         }
-
         return null;
     }
 
@@ -268,8 +271,8 @@ public class Main {
             }
         }
         System.out.println("Introduzca nota media:");
-        notaMedia = entrada.nextLine();
-        if (notaMedia.isEmpty()) {
+        notaMedia = entrada.next();
+        if (notaMedia=="") {
             notaMedia = "0";
         }
         String datos = nombre + "," + apellidos + "," + fechaNac + "," + notaMedia;

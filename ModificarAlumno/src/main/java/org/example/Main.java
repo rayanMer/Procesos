@@ -18,7 +18,6 @@ public class Main {
         String apellidos = campos[1];
         String fechaNac = campos[2].trim();
         String notaMedia = campos[3].trim();
-        System.out.println(campos);
         String url = "jdbc:mysql://localhost:3306/adat2";
         try (Connection con = DriverManager.getConnection(url, "dam2", "asdf.1234");) {
             String consultaPorDNI = "update alumnos SET nombre = ?, apellido = ?, fecha_nac = ?, nota_media = ? where DNI = ?";
