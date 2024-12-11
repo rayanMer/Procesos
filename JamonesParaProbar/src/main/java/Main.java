@@ -10,13 +10,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Secadero secadero = new Secadero(20);
-
         List<Tienda> tiendas = new ArrayList<>();
         //crear 3 tiendas
         for(int i=0;i<3;i++) {
             tiendas.add(new Tienda("Tienda " + i, 2));
         }
-
         Granja granja1 = new Granja("Granja 1", 3000, secadero, 50);
         Granja granja2 = new Granja("Granja 2", 2000, secadero, 50);
         Granja granja3 = new Granja("Granja 3", 2500, secadero, 50);

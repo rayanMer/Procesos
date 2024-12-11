@@ -1,0 +1,4 @@
+Manifiesto del lote 1:
+Jamón{ID='a4349190-0d02-4686-b3d9-e10dff38c9b7', Origen='Granja 2', Peso=6.661727592959649}
+Jamón{ID='c083c845-8fff-4b69-b991-6ba3ec1cdaf0', Origen='Granja 3', Peso=6.181369047987513}
+Jamón{ID='e8337d53-5c33-4e9a-b44d-df24f9d64ddb', Origen='Granja 1', Peso=7.979521476944212}
