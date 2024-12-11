@@ -28,31 +28,36 @@ public class Distribuidor extends Thread {
         while (true) {
             try {
                 List<Jamon> lote = new ArrayList<>();
+                // extraer 3 jamones por lote
+                extraer3Jamones(lote);
+                String nombreManifiesto = generarManifiesto(lote);
 
-                // Extrae 3 jamones del secadero para formar un lote
-                for (int i = 0; i < 3; i++) {
-                    Jamon jamon = secadero.sacarJamon();
-                    lote.add(jamon);
-                }
-
-                // Genera el manifiesto
-                String nombreManifiesto = "manifiesto_" + loteId + ".txt";
-                generarManifiesto(nombreManifiesto, lote);
-                System.out.println("Distribuidor: Lote " + loteId + " generado y registrado.");
-
-                // Selecciona una tienda aleatoriamente para enviar el lote
+                // selecciona una tienda aleatoriamente para enviar el lote
                 Tienda tiendaSeleccionada = tiendas.get(random.nextInt(tiendas.size()));
                 tiendaSeleccionada.recibirLote(lote, nombreManifiesto);
-                System.out.println("Distribuidor: Lote " + loteId + " enviado a " + tiendaSeleccionada.getNombre());
+                System.out.println("Distribuidor// Lote " + loteId + " enviado a " + tiendaSeleccionada.getNombre());
 
-                loteId++; // Incrementa el identificador del lote
-
-                Thread.sleep(3000); // Simula tiempo de distribución
+                loteId++;
+                Thread.sleep(3000); // tiempo de distribucion
             } catch (InterruptedException e) {
                 System.out.println("Distribuidor interrumpido.");
                 break;
             }
         }
+    }
+
+    private void extraer3Jamones(List<Jamon> lote) throws InterruptedException {
+        for (int i = 0; i < 3; i++) {
+            Jamon jamon = secadero.sacarJamon();
+            lote.add(jamon);
+        }
+    }
+
+    private String generarManifiesto(List<Jamon> lote) {
+        String nombreManifiesto = "manifiesto_" + loteId + ".txt";
+        generarManifiesto(nombreManifiesto, lote);
+        System.out.println("Distribuidor: Lote " + loteId + " generado y registrado.");
+        return nombreManifiesto;
     }
 
     private void generarManifiesto(String nombreArchivo, List<Jamon> lote) {

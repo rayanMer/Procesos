@@ -22,23 +22,22 @@ public class Cliente extends Thread {
         try {
             while (true) {
                 double pesoDeseado = 6 + (3 * random.nextDouble());
+                //String.format para formatear el peso
                 System.out.println(nombre + " busca un jamón de " + String.format("%.2f", pesoDeseado) + " kg.");
 
                 boolean jamonEncontrado = false;
                 for (Tienda tienda : tiendas) {
                     Jamon jamon = tienda.venderJamon(pesoDeseado);
                     if (jamon != null) {
-                        System.out.println(nombre + " compró: " + jamon + " en la tienda " + tienda.getNombre());
+                        System.out.println(nombre + " compro: " + jamon + " en la tienda " + tienda.getNombre());
                         jamonEncontrado = true;
                         break;
                     }
                 }
-
                 if (!jamonEncontrado) {
                     System.out.println(nombre + " no encontró un jamón del peso deseado.");
                 }
-
-                Thread.sleep(5000); // Espera 5 segundos antes de buscar otro jamón
+                Thread.sleep(5000); //5 segundos de espera para la siguiente busqueda
             }
         } catch (InterruptedException e) {
             System.out.println(nombre + " interrumpido.");

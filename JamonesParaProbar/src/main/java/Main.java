@@ -9,29 +9,23 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        // Configuración inicial
         Secadero secadero = new Secadero(20);
 
-        // Crear tiendas
         List<Tienda> tiendas = new ArrayList<>();
-        tiendas.add(new Tienda("Tienda 1", 2));
-        tiendas.add(new Tienda("Tienda 2", 2));
-        tiendas.add(new Tienda("Tienda 3", 2));
+        //crear 3 tiendas
+        for(int i=0;i<3;i++) {
+            tiendas.add(new Tienda("Tienda " + i, 2));
+        }
 
-        // Crear granjas (con diferentes tiempos de producción)
         Granja granja1 = new Granja("Granja 1", 3000, secadero, 50);
         Granja granja2 = new Granja("Granja 2", 2000, secadero, 50);
         Granja granja3 = new Granja("Granja 3", 2500, secadero, 50);
-
-        // Crear distribuidor
         Distribuidor distribuidor = new Distribuidor(secadero, tiendas);
-
         // Crear clientes
         List<Cliente> clientes = new ArrayList<>();
         for (int i = 1; i <= 8; i++) {
             clientes.add(new Cliente("Cliente " + i, tiendas));
         }
-
         // Iniciar hilos
         granja1.start();
         granja2.start();
@@ -40,13 +34,11 @@ public class Main {
         for (Cliente cliente : clientes) {
             cliente.start();
         }
-
-        // Esperar a que terminen las granjas
+        //esperar a que terminen granjsa
         granja1.join();
         granja2.join();
         granja3.join();
-
-        // Detener el distribuidor y clientes
+        // detener distribuidor y cliente
         distribuidor.interrupt();
         for (Cliente cliente : clientes) {
             cliente.interrupt();

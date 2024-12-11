@@ -15,7 +15,7 @@ public class Secadero {
     }
 
     public synchronized void ponerJamon(Jamon jamon) throws InterruptedException {
-        while (almacen.size() >= capacidadMaxima) {
+        while (getCantidadActual() >= capacidadMaxima) {
             wait(); // escpera si el secadero esta lleno
         }
         almacen.add(jamon);
@@ -25,7 +25,7 @@ public class Secadero {
 
     public synchronized Jamon sacarJamon() throws InterruptedException {
         while (almacen.isEmpty()) {
-            wait(); // espera si el secadero esta vacío
+            wait(); // espera si el secadero esta vacio
         }
         //saca el primer jamon
         Jamon jamon = almacen.remove(0);
