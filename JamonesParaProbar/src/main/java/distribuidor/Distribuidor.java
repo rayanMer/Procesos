@@ -28,17 +28,17 @@ public class Distribuidor extends Thread {
         while (true) {
             try {
                 List<Jamon> lote = new ArrayList<>();
-                // extraer 3 jamones por lote
+                // Extraer 3 jamones por lote
                 extraer3Jamones(lote);
-                String nombreManifiesto = generarManifiesto(lote);
+                String nombreManifiesto = generarManifiestoXML(lote);
 
-                // selecciona una tienda aleatoriamente para enviar el lote
+                // seleccina una tienda aleatoriamente para enviar el lote
                 Tienda tiendaSeleccionada = tiendas.get(random.nextInt(tiendas.size()));
                 tiendaSeleccionada.recibirLote(lote, nombreManifiesto);
                 System.out.println("Distribuidor// Lote " + loteId + " enviado a " + tiendaSeleccionada.getNombre());
 
                 loteId++;
-                Thread.sleep(3000); // tiempo de distribucion
+                Thread.sleep(3000); // Tiempo de distribucion
             } catch (InterruptedException e) {
                 System.out.println("Distribuidor interrumpido.");
                 break;
@@ -53,21 +53,29 @@ public class Distribuidor extends Thread {
         }
     }
 
-    private String generarManifiesto(List<Jamon> lote) {
-        String nombreManifiesto = "manifiesto_" + loteId + ".txt";
-        generarManifiesto(nombreManifiesto, lote);
-        System.out.println("Distribuidor: Lote " + loteId + " generado y registrado.");
+    private String generarManifiestoXML(List<Jamon> lote) {
+        String nombreManifiesto = "manifiesto_" + loteId + ".xml";
+        generarXML(nombreManifiesto, lote);
+        System.out.println("Distribuidor: Lote " + loteId + " generado y registrado en XML.");
         return nombreManifiesto;
     }
 
-    private void generarManifiesto(String nombreArchivo, List<Jamon> lote) {
+    private void generarXML(String nombreArchivo, List<Jamon> lote) {
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
-            writer.write("Manifiesto del lote " + loteId + ":\n");
+            writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+            writer.write("<manifiesto>\n");
+            writer.write("    <lote id=\"" + loteId + "\">\n");
             for (Jamon jamon : lote) {
-                writer.write(jamon + "\n");
+                writer.write("        <jamon>\n");
+                writer.write("            <id>" + jamon.getId() + "</id>\n");
+                writer.write("            <peso>" + jamon.getPeso() + "</peso>\n");
+                writer.write("            <granjaOrigen>" + jamon.getGranjaOrigen() + "</granjaOrigen>\n");
+                writer.write("        </jamon>\n");
             }
+            writer.write("    </lote>\n");
+            writer.write("</manifiesto>\n");
         } catch (IOException e) {
-            System.out.println("Error al generar el manifiesto: " + e.getMessage());
+            System.out.println("Error : " + e.getMessage());
         }
     }
 }

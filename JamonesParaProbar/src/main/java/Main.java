@@ -6,25 +6,41 @@ import cliente.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        Secadero secadero = new Secadero(20);
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese la capacidad máxima del secadero: ");
+        int capacidadSecadero = scanner.nextInt();
+        Secadero secadero = new Secadero(capacidadSecadero);
+
         List<Tienda> tiendas = new ArrayList<>();
-        //crear 3 tiendas
-        for(int i=0;i<3;i++) {
-            tiendas.add(new Tienda("Tienda " + i, 2));
+        System.out.print("Ingrese la cantidad de tiendas: ");
+        int cantidadTiendas = scanner.nextInt();
+        for (int i = 0; i < cantidadTiendas; i++) {
+            System.out.print("Capacidad de lotes para Tienda " + i + ": ");
+            int capacidadLotes = scanner.nextInt();
+            tiendas.add(new Tienda("Tienda " + i, capacidadLotes));
         }
-        Granja granja1 = new Granja("Granja 1", 3000, secadero, 50);
-        Granja granja2 = new Granja("Granja 2", 2000, secadero, 50);
-        Granja granja3 = new Granja("Granja 3", 2500, secadero, 50);
+
+        System.out.print("Ingrese la cantidad de jamones que produce cada granja: ");
+        int totalJamones = scanner.nextInt();
+
+        Granja granja1 = new Granja("Granja 1", 3000, secadero, totalJamones);
+        Granja granja2 = new Granja("Granja 2", 2000, secadero, totalJamones);
+        Granja granja3 = new Granja("Granja 3", 2500, secadero, totalJamones);
+
         Distribuidor distribuidor = new Distribuidor(secadero, tiendas);
-        // Crear clientes
+
+        System.out.print("Ingrese la cantidad de clientes: ");
+        int cantidadClientes = scanner.nextInt();
         List<Cliente> clientes = new ArrayList<>();
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= cantidadClientes; i++) {
             clientes.add(new Cliente("Cliente " + i, tiendas));
         }
-        // Iniciar hilos
+
+        // inicio hilos
         granja1.start();
         granja2.start();
         granja3.start();
@@ -32,16 +48,19 @@ public class Main {
         for (Cliente cliente : clientes) {
             cliente.start();
         }
-        //esperar a que terminen granjsa
+
+        // espero a que terminen las granjas
         granja1.join();
         granja2.join();
         granja3.join();
-        // detener distribuidor y cliente
+
+        // detengo distribuidor y clientes
         distribuidor.interrupt();
         for (Cliente cliente : clientes) {
             cliente.interrupt();
         }
 
         System.out.println("Producción y venta de jamones finalizada.");
+        scanner.close();
     }
 }
