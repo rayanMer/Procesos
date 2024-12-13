@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifiesto>
+    <lote id="15">
+        <jamon>
+            <id>1915a5c0-816f-4216-83b5-dedea4a31c1b</id>
+            <peso>8.482716744131864</peso>
+            <granjaOrigen>Granja 3</granjaOrigen>
+        </jamon>
+        <jamon>
+            <id>5ba6cfbd-4055-4de1-864d-e62d7a922d2d</id>
+            <peso>7.439060474400441</peso>
+            <granjaOrigen>Granja 1</granjaOrigen>
+        </jamon>
+        <jamon>
+            <id>3fe920b7-35c1-4d7e-959c-68ebf982d9e4</id>
+            <peso>7.662274889105387</peso>
+            <granjaOrigen>Granja 2</granjaOrigen>
+        </jamon>
+    </lote>
+</manifiesto>

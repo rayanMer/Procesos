@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifiesto>
-    <lote id="4">
+    <lote id="11">
         <jamon>
-            <id>b900b7d1-3f09-4ee4-b69c-6917db35ff1e</id>
-            <peso>7.246982784454414</peso>
+            <id>d0da63a3-9380-4d50-bba7-6341d5dffe18</id>
+            <peso>8.61848284790345</peso>
             <granjaOrigen>Granja 1</granjaOrigen>
         </jamon>
         <jamon>
-            <id>f84fb95c-3f82-44e9-a939-0b065e50d659</id>
-            <peso>6.0860626689283475</peso>
+            <id>d5d929ec-1919-450d-8c38-88f842cca8d0</id>
+            <peso>6.868099252442864</peso>
             <granjaOrigen>Granja 3</granjaOrigen>
         </jamon>
         <jamon>
-            <id>41891dbb-ae39-4766-946d-9994b823da0b</id>
-            <peso>7.313319647347764</peso>
+            <id>c818801b-9ce7-40ee-9308-263f974eb844</id>
+            <peso>6.777308161278511</peso>
             <granjaOrigen>Granja 2</granjaOrigen>
         </jamon>
     </lote>
