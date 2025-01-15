@@ -1,7 +1,7 @@
 package basico;
 
 import java.io.DataInputStream;
-import java.io.FileWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,31 +9,32 @@ import java.net.Socket;
 public class Servidor {
 
     public static void main(String[] args) {
-        int PUERTO = 5000; // Puerto para escuchar
+        int PUERTO = 5000;
         System.out.println("Servidor escuchando en el puerto: " + PUERTO);
 
-        try (ServerSocket servidor = new ServerSocket(PUERTO)) {
+        try  {
+            ServerSocket servidor = new ServerSocket(PUERTO);
             while (true) {
                 System.out.println("Esperando cliente...");
-                Socket cliente = servidor.accept(); // Aceptar conexión del cliente
+                Socket cliente = servidor.accept();
                 System.out.println("Cliente conectado desde: " + cliente.getInetAddress());
 
-                // Recibir datos del cliente
+                // recibir datos del cliente
                 DataInputStream entrada = new DataInputStream(cliente.getInputStream());
-                String datosCliente = entrada.readUTF(); // Leer información enviada por el cliente
+                String datosCliente = entrada.readUTF(); // leer info enviada por el cliente
                 System.out.println("Datos recibidos: \n" + datosCliente);
 
-                // Guardar los datos en un archivo (opcional)
-                try (FileWriter fw = new FileWriter("registro_clientes.txt", true)) {
-                    fw.write("Datos de cliente desde " + cliente.getInetAddress() + ":\n");
-                    fw.write(datosCliente + "\n\n");
-                }
+                // mensaje que se enviara al cliente
+                String mensaje = "¡Grande!! Gran guerrero, dices. mmmm." +
+                        "\n La guerra no hacer grande a nadie.\n\n";
+                mensaje += "Datos del sistema del cliente: \n" + datosCliente;
 
-                // Enviar confirmación al cliente
-                cliente.getOutputStream().write("Datos recibidos correctamente.\n".getBytes());
+                // Enviar el mensaje al cliente
+                DataOutputStream ps = new DataOutputStream(cliente.getOutputStream());
+                ps.writeUTF(mensaje);
 
-                cliente.close(); // Cerrar conexión con el cliente
-                System.out.println("Conexión cerrada.\n");
+                cliente.close();
+                System.out.println("Conexión cerrada.");
             }
         } catch (IOException e) {
             e.printStackTrace();

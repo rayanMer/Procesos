@@ -58,3 +58,83 @@ IP del Cliente: 127.0.1.1
 Nombre del Equipo: DAM-22
 
 
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
+Datos de cliente desde /127.0.0.1:
+Usuario: alumno
+Sistema Operativo: Linux
+Versión SO: 5.15.0-122-generic
+Arquitectura: amd64
+Carpeta de Trabajo: /home/alumno/IdeaProjects/Troyano
+IP del Cliente: 127.0.1.1
+Nombre del Equipo: DAM-22
+
+
