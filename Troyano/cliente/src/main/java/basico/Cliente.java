@@ -46,7 +46,7 @@ public class Cliente {
             String datos = String.format(
                     "Usuario: %s\n" +
                             "Sistema Operativo: %s\n" +
-                            "Versión SO: %s\n" +
+                            "Version SO: %s\n" +
                             "Arquitectura: %s\n" +
                             "Carpeta de Trabajo: %s\n" +
                             "IP del Cliente: %s\n" +
@@ -71,7 +71,6 @@ public class Cliente {
     }
 
     public static void mostrarMensajeEnJTextArea(String mensaje) {
-        // Crear el JFrame
         JFrame frame = new JFrame("Mensaje del Servidor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);

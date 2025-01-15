@@ -15,7 +15,7 @@ public class Servidor {
         try  {
             ServerSocket servidor = new ServerSocket(PUERTO);
             while (true) {
-                System.out.println("Esperando cliente...");
+                System.out.println("Esperando cliente");
                 Socket cliente = servidor.accept();
                 System.out.println("Cliente conectado desde: " + cliente.getInetAddress());
 
@@ -29,12 +29,12 @@ public class Servidor {
                         "\n La guerra no hacer grande a nadie.\n\n";
                 mensaje += "Datos del sistema del cliente: \n" + datosCliente;
 
-                // Enviar el mensaje al cliente
+                // enviar el mensaje al cliente
                 DataOutputStream ps = new DataOutputStream(cliente.getOutputStream());
                 ps.writeUTF(mensaje);
 
                 cliente.close();
-                System.out.println("Conexión cerrada.");
+                System.out.println("conexion cerrada.");
             }
         } catch (IOException e) {
             e.printStackTrace();
