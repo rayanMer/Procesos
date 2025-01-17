@@ -13,7 +13,7 @@ public class Cliente {
 
         try {
             InetAddress direccion = InetAddress.getLocalHost();
-            Socket servidor = new Socket(direccion, PUERTO);
+            Socket servidor = new Socket("172.29.10.3", PUERTO);
             ObjectOutputStream salida = new ObjectOutputStream(servidor.getOutputStream());
             ObjectInputStream entrada = new ObjectInputStream(servidor.getInputStream());
             System.out.println("Conexion establecida con el servidor.");
