@@ -5,28 +5,29 @@ import java.util.Map;
 
 public class EscanerPuertos {
     private final String ip;
-    private final int startPort;
-    private final int endPort;
-    private final Map<Integer, String> results;
+    private final int puertoPrimero;
+    private final int puertoUltimo;
+    private final Map<Integer, String> resultados;
 
-    public EscanerPuertos(String ip, int startPort, int endPort) {
+    public EscanerPuertos(String ip, int puertoPrimero, int puertoUltimo) {
         this.ip = ip;
-        this.startPort = startPort;
-        this.endPort = endPort;
-        this.results = new HashMap<>();
+        this.puertoPrimero = puertoPrimero;
+        this.puertoUltimo = puertoUltimo;
+        this.resultados = new HashMap<>();
     }
 
     public void empezarEscaner() {
-        for (int port = startPort; port <= endPort; port++) {
-            try (Socket socket = new Socket(ip, port)) {
-                results.put(port, "Abierto");
+        for (int puerto = puertoPrimero; puerto <= puertoUltimo; puerto++) {
+            try {
+                Socket socket = new Socket(ip, puerto);
+                resultados.put(puerto, "Abierto");
             } catch (IOException e) {
-                results.put(port, "Cerrado");
+                resultados.put(puerto, "Cerrado");
             }
         }
     }
 
-    public Map<Integer, String> getResults() {
-        return results;
+    public Map<Integer, String> getResultados() {
+        return resultados;
     }
 }
