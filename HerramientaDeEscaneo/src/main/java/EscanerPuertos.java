@@ -21,6 +21,7 @@ public class EscanerPuertos {
             try {
                 Socket socket = new Socket(ip, puerto);
                 resultados.put(puerto, "Abierto");
+                socket.close();
             } catch (IOException e) {
                 resultados.put(puerto, "Cerrado");
             }
