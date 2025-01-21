@@ -54,9 +54,9 @@ public class InterfazServidor extends JFrame {
                     servidor.publicarNoticia(categoria, contenido);
                     taContenido.setText(""); // Limpiar el área de contenido
                     tfCategoria.setText(""); // Limpiar el campo de categoría
-                    JOptionPane.showMessageDialog(null, "Noticia enviada con éxito");
+                    JOptionPane.showMessageDialog(null, "Notcia enada con éxi");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Por favor ingrese una categoría y contenido.");
+                    JOptionPane.showMessageDialog(null, "Por avor grese una cateoría y conenido.");
                 }
             }
         });

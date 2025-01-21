@@ -9,6 +9,6 @@ public class Noticia {
 
     @Override
     public String toString() {
-        return "Noticia en " + categoria + ": " + contenido;
+        return "Notia en " + categoria + ": " + contenido;
     }
 }

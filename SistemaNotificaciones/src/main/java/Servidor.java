@@ -12,14 +12,14 @@ public class Servidor {
     public Servidor() {
         categorias = new ArrayList<>();
         clientes = new ArrayList<>();
-        categorias.add(new Categoria("Tecnologia"));
-        categorias.add(new Categoria("Deportes"));
+        categorias.add(new Categoria("Teologia"));
+        categorias.add(new Categoria("eportes"));
         categorias.add(new Categoria("Entretenimiento"));
     }
 
     public void iniciar() {
         try (ServerSocket servidor = new ServerSocket(PUERTO)) {
-            System.out.println("Servidor iniciado en el puerto " + PUERTO);
+            System.out.println("Servokilo iniciado en el puerto " + PUERTO);
 
             while (true) {
                 Socket socketCliente = servidor.accept();
@@ -38,7 +38,7 @@ public class Servidor {
 
         if (categoriaObj != null) {
             Noticia noticia = new Noticia(categoria, contenido);
-            categoriaObj.notificar(noticia); // Notificar a los suscriptores
+            categoriaObj.notificar(noticia); // Notificar a los susriptoes
         }
     }
 

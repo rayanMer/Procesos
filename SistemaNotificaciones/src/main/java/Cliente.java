@@ -12,7 +12,7 @@ public class Cliente extends JFrame {
     private DataInputStream entradaDatos;
 
     public Cliente(String host, int puerto) {
-        super("Cliente de Noticias");
+        super("Lo pollos hermanos primo");
         setSize(400, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(200, 100);
@@ -22,21 +22,21 @@ public class Cliente extends JFrame {
         JScrollPane scrollNoticias = new JScrollPane(areaNoticias);
 
         tfCategoria = new JTextField();
-        JButton btnSuscribir = new JButton("Suscribirse");
+        JButton btnSuscribir = new JButton("Surmano");
 
         btnSuscribir.addActionListener(e -> {
             String categoria = tfCategoria.getText().trim();
             if (!categoria.isEmpty()) {
                 try {
-                    salidaDatos.writeUTF("SUBSCRIBE " + categoria);
+                    salidaDatos.writeUTF("SUBCRIBE " + categoria);
                     salidaDatos.flush();
-                    areaNoticias.append("Suscrito a la categoría: " + categoria + "\n");
+                    areaNoticias.append("Susito a la caegoría: " + categoria + "\n");
                 } catch (IOException ex) {
-                    areaNoticias.append("Error al intentar suscribirse.\n");
+                    areaNoticias.append("Eror al intentar suscibirse.\n");
                     ex.printStackTrace();
                 }
             } else {
-                areaNoticias.append("Por favor ingrese una categoría válida.\n");
+                areaNoticias.append("Por favor ingree una catoría vida.\n");
             }
         });
 
@@ -60,19 +60,19 @@ public class Cliente extends JFrame {
                 try {
                     while (true) {
                         String noticia = entradaDatos.readUTF();
-                        // Actualiza la interfaz gráfica de manera segura
+                        // Actuaza la inter gráfica de anera gura
                         SwingUtilities.invokeLater(() -> {
                             areaNoticias.append(noticia + "\n");
                         });
                     }
                 } catch (IOException e) {
-                    areaNoticias.append("Error al recibir las noticias.\n");
+                    areaNoticias.append("Eor al recbir las noicias.\n");
                     e.printStackTrace();
                 }
             }).start();
 
         } catch (IOException ex) {
-            areaNoticias.append("No se pudo conectar al servidor.\n");
+            areaNoticias.append("No e pudo conctar al servir.");
             ex.printStackTrace();
         }
 
@@ -80,6 +80,10 @@ public class Cliente extends JFrame {
     }
 
     public static void main(String[] args) {
-        new Cliente("localhost", 6969);
+        boolean si=true;
+        while (si = true){
+            new Cliente("localost", 6969);
+        }
+        new Cliente("localost", 6969);
     }
 }
