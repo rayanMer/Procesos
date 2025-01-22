@@ -29,8 +29,7 @@ public class Autor {
 
     public Autor() {}
 
-    public Autor(int idAutor, String nombre, String apellido, String nacionalidad, String fechaNacimiento) {
-        this.idAutor = idAutor;
+    public Autor( String nombre, String apellido, String nacionalidad, String fechaNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.nacionalidad = nacionalidad;

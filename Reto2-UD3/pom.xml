@@ -5,30 +5,54 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>Reto2-UD3</artifactId>
+    <artifactId>apartado1</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>6.6.4.Final</version>
-        </dependency>
+        <!-- Dependencia de JPA -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.1.0</version>
+            <version>3.1.0</version> <!-- You can use this version or the latest available -->
         </dependency>
+
+        <!-- Dependencia de Hibernate JPA -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.6.4.Final</version>
+        </dependency>
+
+        <!-- JDBC Driver -->
+        <!--
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
-            <version>3.1.0</version> <!-- Asegúrate de usar la versión más reciente -->
+            <version>3.4.1</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+
+        <!-- Dependencia para manejo de transacciones JTA si usas transacciones JTA -->
+        <dependency>
+            <groupId>javax.transaction</groupId>
+            <artifactId>javax.transaction-api</artifactId>
+            <version>1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.9</version>
         </dependency>
     </dependencies>
-
 </project>
