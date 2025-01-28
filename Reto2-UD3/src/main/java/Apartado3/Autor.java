@@ -6,13 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 
 @Entity
-@Table(name = "autor") 
+@Table(name = "autor")
 public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_autor") 
+    @Column(name = "id_autor")
     private int idAutor;
 
     @Column(name = "nombre")
@@ -27,9 +29,12 @@ public class Autor {
     @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
+    @OneToMany(mappedBy = "autor")
+    private List<Libro> libros;
+
     public Autor() {}
 
-    public Autor( String nombre, String apellido, String nacionalidad, String fechaNacimiento) {
+    public Autor(String nombre, String apellido, String nacionalidad, String fechaNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.nacionalidad = nacionalidad;
@@ -50,6 +55,9 @@ public class Autor {
 
     public String getFechaNacimiento() { return fechaNacimiento; }
     public void setFechaNacimiento(String fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+
+    public List<Libro> getLibros() { return libros; }
+    public void setLibros(List<Libro> libros) { this.libros = libros; }
 
     @Override
     public String toString() {
