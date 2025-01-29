@@ -1,4 +1,4 @@
-public class Noticia {
+class Noticia {
     private String categoria;
     private String contenido;
 
@@ -7,8 +7,16 @@ public class Noticia {
         this.contenido = contenido;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public String getContenido() {
+        return contenido;
+    }
+
     @Override
     public String toString() {
-        return "Notia en " + categoria + ": " + contenido;
+        return "[" + categoria + "] " + contenido;
     }
 }

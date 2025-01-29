@@ -1,25 +1,40 @@
-import javax.swing.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
-import java.util.Observer;
+import org.json.JSONObject;
+import java.util.*;
 
-public class GestionCliente extends Thread implements Observer {
+class GestionCliente extends Thread implements Observer {
     private Socket socket;
-    private List<Categoria> categorias;
-    private DataInputStream entradaDatos;
-    private DataOutputStream salidaDatos;
+    private DataInputStream entrada;
+    private DataOutputStream salida;
+    private List<Categoria> categorias;  // lista del servidor para copiar
+    private List<Categoria> suscripciones;
 
     public GestionCliente(Socket socket, List<Categoria> categorias) {
         this.socket = socket;
-        this.categorias = categorias;
+        this.categorias = categorias;  // recibir lista del servidor con las categorias
+        this.suscripciones = new ArrayList<>();
         try {
-            entradaDatos = new DataInputStream(socket.getInputStream());
-            salidaDatos = new DataOutputStream(socket.getOutputStream());
+            entrada = new DataInputStream(socket.getInputStream());
+            salida = new DataOutputStream(socket.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // Este método se llama cuando una categoría publica una noticia
+        if (o instanceof Categoria) {
+            Noticia noticia = (Noticia) arg;
+            try {
+                salida.writeUTF("Nueva noticia en " + noticia.getCategoria() + ": " + noticia.getContenido());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -27,50 +42,70 @@ public class GestionCliente extends Thread implements Observer {
     public void run() {
         try {
             while (true) {
-                String mensaje = entradaDatos.readUTF();
-                // Procesar mensaje de suscripción o desconexión
-                if (mensaje.startsWith("SUBSCRIBE")) {
-                    String categoria = mensaje.split(" ")[1];
-                    Categoria categoriaObj = categorias.stream()
-                            .filter(c -> c.getNombre().equals(categoria))
-                            .findFirst().orElse(null);
-                    if (categoriaObj != null) {
-                        categoriaObj.agregarSuscriptor(this); // Agregar el cliente como suscriptor
-                        salidaDatos.writeUTF("Te has suscrito a la categoría: " + categoria);
-                    }
-                } else if (mensaje.startsWith("UNSUBSCRIBE")) {
-                    String categoria = mensaje.split(" ")[1];
-                    Categoria categoriaObj = categorias.stream()
-                            .filter(c -> c.getNombre().equals(categoria))
-                            .findFirst().orElse(null);
-                    if (categoriaObj != null) {
-                        categoriaObj.eliminarSuscriptor(this); // Eliminar el cliente de la suscripción
-                        salidaDatos.writeUTF("Te has desuscrito de la categoría: " + categoria);
-                    }
-                } else if (mensaje.equals("EXIT")) {
-                    socket.close();
-                    break;
+                String mensaje = entrada.readUTF();
+                JSONObject json = new JSONObject(mensaje);
+                String comando = json.getString("comando");
+                String categoria = json.optString("categoria", "");
+
+                switch (comando) {
+                    case "SUBSCRIBE":
+                        suscribirse(categoria);
+                        break;
+                    case "UNSUBSCRIBE":
+                        desuscribirse(categoria);
+                        break;
+                    case "EXIT":
+                        socket.close();
+                        return;
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Cliente desconectado.");
         }
     }
 
-    @Override
-    public void update(java.util.Observable o, Object arg) {
-        if (arg instanceof Noticia) {
-            Noticia noticia = (Noticia) arg;
-            // Actualizar la interfaz de usuario en el hilo principal
-            SwingUtilities.invokeLater(() -> {
-                try {
-                    salidaDatos.writeUTF(noticia.toString()); // Enviar la noticia al cliente
-                } catch (IOException e) {
-                    e.printStackTrace();
+    private void suscribirse(String categoria) throws IOException {
+        boolean categoriaEncontrada = false;
+        // buscar categoria en la lista
+        for (Categoria c : categorias) {
+            if (c.getNombre().equalsIgnoreCase(categoria)) {
+                //si no esta suscrito lo mete
+                if (!suscripciones.contains(c)) {
+                    suscripciones.add(c);
+                    c.addObserver(this);  // El cliente ya es un observer
+                    salida.writeUTF("Suscrito a: " + categoria);
+                } else {
+                    salida.writeUTF("Ya estás suscrito a esta categoría.");
                 }
-            });
+                categoriaEncontrada = true;
+                break;
+            }
+        }
+
+        if (!categoriaEncontrada) {
+            salida.writeUTF("Categoría no encontrada");
         }
     }
 
+    private void desuscribirse(String categoria) throws IOException {
+        for (Categoria c : suscripciones) {
+            if (c.getNombre().equalsIgnoreCase(categoria)) {
+                c.deleteObserver(this);  // el cliente ya o es observer
+                suscripciones.remove(c);
+                salida.writeUTF("Desuscrito de: " + categoria);
+                return;
+            }
+        }
+        salida.writeUTF("No estás suscrito a esa categoría");
+    }
 
+    // Getter para obtener el socket
+    public Socket getSocket() {
+        return socket;
+    }
+
+    // Getter para obtener las suscripciones
+    public List<Categoria> getSuscripciones() {
+        return suscripciones;
+    }
 }
