@@ -14,9 +14,4 @@ class Noticia {
     public String getContenido() {
         return contenido;
     }
-
-    @Override
-    public String toString() {
-        return "[" + categoria + "] " + contenido;
-    }
 }

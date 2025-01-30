@@ -23,7 +23,11 @@ class Cliente {
             }).start();
 
             while (true) {
-                System.out.println("Comandos: SUBSCRIBE <categoria>, UNSUBSCRIBE <categoria>, EXIT, VER_CATEGORIAS");
+                System.out.println("Comandos: (numero + <categoria>)" +
+                        "\n1-SUBSCRIBE <categoria> " +
+                        "\n2-UNSUBSCRIBE <categoria> " +
+                        "\n3-EXIT " +
+                        "\n4-VER_HISTORIAL <categoria>");
                 String input = scanner.nextLine();
                 String[] parts = input.split(" ", 2);
                 String comando = parts[0];

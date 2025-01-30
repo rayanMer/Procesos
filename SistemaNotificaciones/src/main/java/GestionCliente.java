@@ -2,21 +2,26 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import org.json.JSONObject;
-import java.util.*;
 
 class GestionCliente extends Thread implements Observer {
     private Socket socket;
     private DataInputStream entrada;
     private DataOutputStream salida;
-    private List<Categoria> categorias;  // lista del servidor para copiar
+    private List<Categoria> categorias;  // lista de categorías del servidor
     private List<Categoria> suscripciones;
+    private Servidor servidor;  // Referencia al servidor
 
-    public GestionCliente(Socket socket, List<Categoria> categorias) {
+    // Constructor modificado para recibir la referencia del servidor
+    public GestionCliente(Socket socket, List<Categoria> categorias, Servidor servidor) {
         this.socket = socket;
-        this.categorias = categorias;  // recibir lista del servidor con las categorias
+        this.categorias = categorias;  // recibir lista de categorías del servidor
         this.suscripciones = new ArrayList<>();
+        this.servidor = servidor;  // Almacenar la referencia al servidor
         try {
             entrada = new DataInputStream(socket.getInputStream());
             salida = new DataOutputStream(socket.getOutputStream());
@@ -27,8 +32,8 @@ class GestionCliente extends Thread implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // Este método se llama cuando una categoría publica una noticia
-        if (o instanceof Categoria) {
+        // Este método se llama cuando el servidor publica una noticia
+        if (arg instanceof Noticia) {
             Noticia noticia = (Noticia) arg;
             try {
                 salida.writeUTF("Nueva noticia en " + noticia.getCategoria() + ": " + noticia.getContenido());
@@ -48,15 +53,18 @@ class GestionCliente extends Thread implements Observer {
                 String categoria = json.optString("categoria", "");
 
                 switch (comando) {
-                    case "SUBSCRIBE":
+                    case "1":
                         suscribirse(categoria);
                         break;
-                    case "UNSUBSCRIBE":
+                    case "2":
                         desuscribirse(categoria);
                         break;
-                    case "EXIT":
+                    case "3":
                         socket.close();
                         return;
+                    case "4":
+                        verHistorial(categoria);
+                        break;
                 }
             }
         } catch (IOException e) {
@@ -66,14 +74,22 @@ class GestionCliente extends Thread implements Observer {
 
     private void suscribirse(String categoria) throws IOException {
         boolean categoriaEncontrada = false;
-        // buscar categoria en la lista
         for (Categoria c : categorias) {
             if (c.getNombre().equalsIgnoreCase(categoria)) {
-                //si no esta suscrito lo mete
                 if (!suscripciones.contains(c)) {
                     suscripciones.add(c);
-                    c.addObserver(this);  // El cliente ya es un observer
+                    servidor.addObserver(this);  // Suscribir el cliente al servidor
                     salida.writeUTF("Suscrito a: " + categoria);
+
+                    // Enviar el historial de noticias al cliente
+                    if (!c.getHistorialNoticias().isEmpty()) {
+                        salida.writeUTF("Historial de noticias en " + categoria + ":");
+                        for (Noticia noticia : c.getHistorialNoticias()) {
+                            salida.writeUTF(noticia.getCategoria() + ": " + noticia.getContenido());
+                        }
+                    } else {
+                        salida.writeUTF("No hay noticias anteriores en esta categoría.");
+                    }
                 } else {
                     salida.writeUTF("Ya estás suscrito a esta categoría.");
                 }
@@ -90,13 +106,35 @@ class GestionCliente extends Thread implements Observer {
     private void desuscribirse(String categoria) throws IOException {
         for (Categoria c : suscripciones) {
             if (c.getNombre().equalsIgnoreCase(categoria)) {
-                c.deleteObserver(this);  // el cliente ya o es observer
                 suscripciones.remove(c);
                 salida.writeUTF("Desuscrito de: " + categoria);
                 return;
             }
         }
         salida.writeUTF("No estás suscrito a esa categoría");
+    }
+
+    private void verHistorial(String categoria) throws IOException {
+        boolean categoriaEncontrada = false;
+        for (Categoria c : categorias) {
+            if (c.getNombre().equalsIgnoreCase(categoria)) {
+                categoriaEncontrada = true;
+                List<Noticia> historial = c.getHistorialNoticias();
+                if (!historial.isEmpty()) {
+                    salida.writeUTF("Historial de noticias en " + categoria + ":");
+                    for (Noticia noticia : historial) {
+                        salida.writeUTF(noticia.getCategoria() + ": " + noticia.getContenido());
+                    }
+                } else {
+                    salida.writeUTF("No hay noticias en esta categoría.");
+                }
+                break;
+            }
+        }
+
+        if (!categoriaEncontrada) {
+            salida.writeUTF("Categoría no encontrada");
+        }
     }
 
     // Getter para obtener el socket

@@ -3,12 +3,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.Scanner;
 
-class Servidor {
+class Servidor extends Observable {
     private static final int PUERTO = 6969;
     private List<Categoria> categorias;
-    private List<GestionCliente> clientes;  // Lista para almacenar clientes conectados
+    private List<GestionCliente> clientes;  // lista para almacenar clientes conectados
 
     public Servidor() {
         categorias = new ArrayList<>();
@@ -21,13 +22,17 @@ class Servidor {
     public void iniciar() {
         try (ServerSocket serverSocket = new ServerSocket(PUERTO)) {
             System.out.println("Servidor iniciado en el puerto " + PUERTO);
-            // Hilo para gestionar los comandos del menú
-            new Thread(this::mostrarMenu).start();
 
+            // crear y arrancar el hilo para mostrar el menú
+            Thread menuThread = new Thread(this::mostrarMenu);
+            menuThread.start();
+
+            // aceptar conexiones de clientes mientras el menú está activo
             while (true) {
                 Socket socketCliente = serverSocket.accept();
-                GestionCliente cliente = new GestionCliente(socketCliente, categorias);
-                clientes.add(cliente);  // Agregar cliente a la lista
+                GestionCliente cliente = new GestionCliente(socketCliente, categorias, this);
+                clientes.add(cliente);  // agregar cliente a la lista
+                addObserver(cliente);  // El servidor se vuelve observable
                 cliente.start();
             }
         } catch (IOException e) {
@@ -35,7 +40,7 @@ class Servidor {
         }
     }
 
-    // Mostrar el menú interactivo
+    //menu
     public void mostrarMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -72,7 +77,7 @@ class Servidor {
         }
     }
 
-    // Mostrar los clientes conectados
+    // mostrar los clientes conectados
     public void mostrarClientesConectados() {
         System.out.println("\n--- Clientes conectados ---");
         for (GestionCliente cliente : clientes) {
@@ -84,7 +89,7 @@ class Servidor {
         }
     }
 
-    // Mostrar las categorías disponibles
+    // mostrar las categorías disponibles
     public void mostrarCategorias() {
         System.out.println("\n--- Categorías disponibles ---");
         for (Categoria categoria : categorias) {
@@ -92,26 +97,26 @@ class Servidor {
         }
     }
 
-    // Agregar una nueva categoría
+    // agregar una nueva categoría
     public void agregarCategoria(Scanner scanner) {
         System.out.print("Introduce el nombre de la nueva categoría: ");
         String nuevaCategoria = scanner.nextLine();
 
-        // Verificar si la categoría ya existe
+        // verificar si la categoría ya existe
         for (Categoria categoria : categorias) {
             if (categoria.getNombre().equalsIgnoreCase(nuevaCategoria)) {
-                System.out.println("¡La categoría ya existe!");
+                System.out.println("Error:La categoría ya existe");
                 return;
             }
         }
 
-        // Agregar la nueva categoría
+        // agregar la nueva categoría
         Categoria categoria = new Categoria(nuevaCategoria);
         categorias.add(categoria);
         System.out.println("Categoría '" + nuevaCategoria + "' añadida correctamente.");
     }
 
-    // Publicar una noticia manualmente
+    // oublica una noticia manualmente
     public void publicarNoticiaManual(Scanner scanner) {
         System.out.print("Introduce la categoría de la noticia: ");
         String categoria = scanner.nextLine();
@@ -120,24 +125,24 @@ class Servidor {
         publicarNoticia(categoria, contenido);
     }
 
+    // publicar una noticia y notificar a los clientes
     public void publicarNoticia(String categoria, String contenido) {
-        boolean categoriaEncontrada = false;
-        for (Categoria c : categorias) {
-            System.out.println("Comparando: " + c.getNombre() + " con " + categoria);
-            if (c.getNombre().equalsIgnoreCase(categoria)) {
-                categoriaEncontrada = true;
-                c.notificar(new Noticia(categoria, contenido));
-                return;
+        Noticia noticia = new Noticia(categoria, contenido);
+
+        // buscar la categoría y agregar la noticia a su historial
+        for (Categoria cat : categorias) {
+            if (cat.getNombre().equalsIgnoreCase(categoria)) {
+                cat.agregarNoticia(noticia);  // Añadir al historial de la categoría
+                break;
             }
         }
-        if (!categoriaEncontrada) {
-            System.out.println("Categoría no encontrada.");
-        }
-    }
 
+        setChanged();  // Marca el estado del servidor como "cambiado"
+        notifyObservers(noticia);  // Notifica a todos los observadores (clientes)
+    }
 
     public static void main(String[] args) {
         Servidor servidor = new Servidor();
-        new Thread(servidor::iniciar).start();
+        servidor.iniciar();
     }
 }
