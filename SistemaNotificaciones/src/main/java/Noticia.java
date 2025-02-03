@@ -1,4 +1,6 @@
-class Noticia {
+import org.json.JSONObject;
+
+public class Noticia {
     private String categoria;
     private String contenido;
 
@@ -14,4 +16,6 @@ class Noticia {
     public String getContenido() {
         return contenido;
     }
+
+
 }

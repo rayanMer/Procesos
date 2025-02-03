@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+
 import org.json.JSONObject;
 
 class GestionCliente extends Thread implements Observer {
@@ -63,8 +64,18 @@ class GestionCliente extends Thread implements Observer {
                         socket.close();
                         return;
                     case "4":
-                        verHistorial(categoria);
+                        List<Noticia> historial = HistorialNoticias.obtenerHistorialPorCategoria(categoria);
+                        if (historial.isEmpty()) {
+                            salida.writeUTF("No hay noticias en la categoría: " + categoria);
+                        } else {
+                            salida.writeUTF("Historial de noticias en " + categoria + ":");
+                            for (Noticia noticia : historial) {
+                                salida.writeUTF("- " + noticia.getContenido());
+                            }
+                        }
                         break;
+
+
                 }
             }
         } catch (IOException e) {
@@ -80,16 +91,6 @@ class GestionCliente extends Thread implements Observer {
                     suscripciones.add(c);
                     servidor.addObserver(this);  // Suscribir el cliente al servidor
                     salida.writeUTF("Suscrito a: " + categoria);
-
-                    // Enviar el historial de noticias al cliente
-                    if (!c.getHistorialNoticias().isEmpty()) {
-                        salida.writeUTF("Historial de noticias en " + categoria + ":");
-                        for (Noticia noticia : c.getHistorialNoticias()) {
-                            salida.writeUTF(noticia.getCategoria() + ": " + noticia.getContenido());
-                        }
-                    } else {
-                        salida.writeUTF("No hay noticias anteriores en esta categoría.");
-                    }
                 } else {
                     salida.writeUTF("Ya estás suscrito a esta categoría.");
                 }
@@ -112,29 +113,6 @@ class GestionCliente extends Thread implements Observer {
             }
         }
         salida.writeUTF("No estás suscrito a esa categoría");
-    }
-
-    private void verHistorial(String categoria) throws IOException {
-        boolean categoriaEncontrada = false;
-        for (Categoria c : categorias) {
-            if (c.getNombre().equalsIgnoreCase(categoria)) {
-                categoriaEncontrada = true;
-                List<Noticia> historial = c.getHistorialNoticias();
-                if (!historial.isEmpty()) {
-                    salida.writeUTF("Historial de noticias en " + categoria + ":");
-                    for (Noticia noticia : historial) {
-                        salida.writeUTF(noticia.getCategoria() + ": " + noticia.getContenido());
-                    }
-                } else {
-                    salida.writeUTF("No hay noticias en esta categoría.");
-                }
-                break;
-            }
-        }
-
-        if (!categoriaEncontrada) {
-            salida.writeUTF("Categoría no encontrada");
-        }
     }
 
     // Getter para obtener el socket

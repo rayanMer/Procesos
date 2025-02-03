@@ -3,7 +3,7 @@ import java.util.List;
 
 class Categoria {
     private String nombre;
-    private List<Noticia> historialNoticias;  // Lista para almacenar el historial de noticias
+    private List<Noticia> historialNoticias;  // lista para almacenar el historial de noticias
 
     public Categoria(String nombre) {
         this.nombre = nombre;
@@ -19,6 +19,6 @@ class Categoria {
     }
 
     public void agregarNoticia(Noticia noticia) {
-        historialNoticias.add(noticia);  // Añadir una noticia al historial
+        historialNoticias.add(noticia);  // añadir noticia al historia
     }
 }

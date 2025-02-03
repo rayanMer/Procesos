@@ -34,7 +34,6 @@ class Cliente {
                 String categoria = parts.length > 1 ? parts[1] : "";
 
                 if (comando.equals("VER_CATEGORIAS")) {
-                    // Mostrar las categorías disponibles
                     System.out.println("Categorías disponibles: Tecnologia, Deportes, Entretenimiento");
                 } else {
                     JSONObject json = new JSONObject();

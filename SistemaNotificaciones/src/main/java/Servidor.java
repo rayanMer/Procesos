@@ -128,6 +128,7 @@ class Servidor extends Observable {
     // publicar una noticia y notificar a los clientes
     public void publicarNoticia(String categoria, String contenido) {
         Noticia noticia = new Noticia(categoria, contenido);
+        HistorialNoticias.guardarNoticia(noticia); // Guardar en historial
 
         // buscar la categoría y agregar la noticia a su historial
         for (Categoria cat : categorias) {
@@ -137,8 +138,8 @@ class Servidor extends Observable {
             }
         }
 
-        setChanged();  // Marca el estado del servidor como "cambiado"
-        notifyObservers(noticia);  // Notifica a todos los observadores (clientes)
+        setChanged();  // marca el estado del servidor como "cambiado"
+        notifyObservers(noticia);  // notifica a todos los clientes que son los observadores
     }
 
     public static void main(String[] args) {
