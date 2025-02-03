@@ -17,12 +17,11 @@ class GestionCliente extends Thread implements Observer {
     private List<Categoria> suscripciones;
     private Servidor servidor;  // Referencia al servidor
 
-    // Constructor modificado para recibir la referencia del servidor
     public GestionCliente(Socket socket, List<Categoria> categorias, Servidor servidor) {
         this.socket = socket;
-        this.categorias = categorias;  // recibir lista de categorías del servidor
+        this.categorias = categorias;  // categorías del servidor
         this.suscripciones = new ArrayList<>();
-        this.servidor = servidor;  // Almacenar la referencia al servidor
+        this.servidor = servidor;
         try {
             entrada = new DataInputStream(socket.getInputStream());
             salida = new DataOutputStream(socket.getOutputStream());
@@ -30,12 +29,11 @@ class GestionCliente extends Thread implements Observer {
             e.printStackTrace();
         }
     }
-
+    // cuando se publica una noticia e ejecuta el update
     @Override
-    public void update(Observable o, Object arg) {
-        // Este método se llama cuando el servidor publica una noticia
-        if (arg instanceof Noticia) {
-            Noticia noticia = (Noticia) arg;
+    public void update(Observable o, Object obj) {
+        if (obj instanceof Noticia) {
+            Noticia noticia = (Noticia) obj;
             try {
                 salida.writeUTF("Nueva noticia en " + noticia.getCategoria() + ": " + noticia.getContenido());
             } catch (IOException e) {
