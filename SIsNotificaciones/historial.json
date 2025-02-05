@@ -30,5 +30,21 @@
     {
         "contenido": "pepe",
         "categoria": "tecnologia"
+    },
+    {
+        "contenido": "patata",
+        "categoria": "tecnologia"
+    },
+    {
+        "contenido": "futbol",
+        "categoria": "deportes"
+    },
+    {
+        "contenido": "aa",
+        "categoria": "deportes"
+    },
+    {
+        "contenido": "asd",
+        "categoria": "tecnologia"
     }
 ]
