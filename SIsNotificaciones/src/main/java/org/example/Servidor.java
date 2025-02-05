@@ -1,3 +1,5 @@
+package org.example;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,8 +33,8 @@ class Servidor extends Observable {
             while (true) {
                 Socket socketCliente = serverSocket.accept();
                 GestionCliente cliente = new GestionCliente(socketCliente, categorias, this);
-                clientes.add(cliente);  // agregar cliente a la lista
-                addObserver(cliente);  // El servidor se vuelve observable
+                clientes.add(cliente);
+                addObserver(cliente);  //  server se vuelve observable
                 cliente.start();
             }
         } catch (IOException e) {

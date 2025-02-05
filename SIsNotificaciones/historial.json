@@ -26,5 +26,9 @@
     {
         "contenido": "hola mundo",
         "categoria": "tecnologia"
+    },
+    {
+        "contenido": "pepe",
+        "categoria": "tecnologia"
     }
 ]

@@ -1,3 +1,5 @@
+package org.example;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -19,7 +21,7 @@ class GestionCliente extends Thread implements Observer {
 
     public GestionCliente(Socket socket, List<Categoria> categorias, Servidor servidor) {
         this.socket = socket;
-        this.categorias = categorias;  // categorías del servidor
+        this.categorias = categorias;
         this.suscripciones = new ArrayList<>();
         this.servidor = servidor;
         try {
