@@ -7,7 +7,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import java.io.*;
 
 public class ClienteFTP {
-    private static final String IP = "127.0.0.1"; // IP del servidor FTP
+    private static final String IP = "127.0.0.1";
     private static final int PUERTO = 5000;
     private static final String USUARIO = "admin";
     private static final String CONTRASENA = "admin";
@@ -45,7 +45,7 @@ public class ClienteFTP {
     public static void subirArchivo(FTPClient clienteFtp, String nombreArchivo) throws IOException {
         FileInputStream fis = new FileInputStream(nombreArchivo);
 
-        System.out.println("Subiendo archivo '" + nombreArchivo + "' al servidor...");
+        System.out.println("Subiendo archivo '" + nombreArchivo + "' al servidor");
         if (clienteFtp.storeFile(nombreArchivo, fis)) {
             System.out.println("El archivo se ha subido correctamente.");
         } else {
@@ -70,7 +70,7 @@ public class ClienteFTP {
     }
 
     public static void borrarArchivo(FTPClient clienteFtp, String nombreArchivo) throws IOException {
-        System.out.println("Eliminando archivo '" + nombreArchivo + "' del servidor...");
+        System.out.println("Eliminando archivo '" + nombreArchivo + "' del servidor");
         if (clienteFtp.deleteFile(nombreArchivo)) {
             System.out.println("El archivo se ha eliminado correctamente.");
         } else {
